@@ -32,9 +32,9 @@ RUN mkdir github && \
     git checkout tags/debian/0.9.0-2 -b debian-0.9.0-2
 
 # create conda environment
-RUN conda create -n heudiconv
+RUN conda create -n heudiconv python=3.7.9
 # Install Dependencies
-SHELL ["conda", "run", "-n", "heudiconv", "conda", "install", "pip"]
+SHELL ["conda", "run", "-n", "heudiconv", "conda", "install", "pip", "numpy"]
 SHELL ["conda", "run", "-n", "heudiconv", "conda", "install", "-c", "conda-forge", "datalad"]
 SHELL ["conda", "run", "-n", "heudiconv", "/bin/bash", "-c", "pip", "install", "-r", "requirements.txt"]
 
@@ -47,4 +47,4 @@ RUN mkdir /output_dir && \
     mkdir /tmp_dir && \
     touch /heuristic.py
 
-ENTRYPOINT ["conda", "run", "-n", "heudiconv", "python", "/run.py"]
+ENTRYPOINT ["conda", "run", "--no-capture-output","-n", "heudiconv", "python", "/run.py"]
