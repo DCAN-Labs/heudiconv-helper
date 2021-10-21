@@ -3,7 +3,7 @@ FROM ubuntu:xenial-20210429
 
 #Environment
 ENV DEBIAN_FRONTEND=noninteractive
-ENV PYTHONPATH=""
+ENV PYTHONPATH="/usr/local/miniconda/envs/heudiconv/bin/python"
 
 # Install needed UBUNTU packages
 RUN apt-get update && \
@@ -16,7 +16,7 @@ RUN echo "Installing miniconda ..." && \
     rm Miniconda3-py37_4.9.2-Linux-x86_64.sh 
 
 # Add miniconda to path and set other environment variables
-ENV PATH="/usr/local/miniconda/bin:$PATH" \
+ENV PATH="/usr/local/miniconda/bin:/usr/local/miniconda/envs/heudiconv/bin:$PATH" \
     CPATH="/usr/local/miniconda/include:$CPATH" \
     LANG="C.UTF-8" \
     LC_ALL="C.UTF-8" \
@@ -47,4 +47,4 @@ RUN mkdir /output_dir && \
     mkdir /tmp_dir && \
     touch /heuristic.py
 
-ENTRYPOINT ["conda", "run", "--no-capture-output","-n", "heudiconv", "python", "/run.py"]
+ENTRYPOINT ["/usr/local/miniconda/envs/heudiconv/bin/python", "/run.py"]
