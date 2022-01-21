@@ -36,7 +36,7 @@ ENV PATH="/usr/local/miniconda/bin:/usr/local/miniconda/condabin:$PATH" \
 
 # Install python dependencies
 RUN conda install -y pip numpy
-RUN conda install -y -c conda-forge datalad
+RUN conda install -y -c conda-forge datalad dcm2niix
 
 # download heudiconv repo
 RUN mkdir github && \
@@ -45,30 +45,6 @@ RUN mkdir github && \
     cd heudiconv && \
     git checkout tags/debian/0.9.0-2 -b debian-0.9.0-2 && \
     pip install -r requirements.txt
-# install dcm2niix
-ENV PATH="/opt/dcm2niix-v1.0.20190410/bin:$PATH"
-RUN apt-get update -qq \
-    && apt-get install -y -q --no-install-recommends \
-           cmake \
-           g++ \
-           gcc \
-           git \
-           make \
-           pigz \
-           zlib1g-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && git clone https://github.com/rordenlab/dcm2niix /tmp/dcm2niix \
-    && cd /tmp/dcm2niix \
-    && git fetch --tags \
-    && git checkout v1.0.20190410 \
-    && mkdir /tmp/dcm2niix/build \
-    && cd /tmp/dcm2niix/build \
-    && cmake  -DCMAKE_INSTALL_PREFIX:PATH=/opt/dcm2niix-v1.0.20190410 .. \
-    && make \
-    && make install \
-    && rm -rf /tmp/dcm2niix
-
 COPY run.py /run.py
 COPY heuristics /heuristics
 COPY IntendedFor.py /IntendedFor.py

@@ -30,12 +30,14 @@ def IntendedFor(data_path):
             del fmap_json["IntendedFor"]
         shim_fmap = fmap_json["ShimSetting"]
         patient_pos_fmap = fmap_json["ImageOrientationPatientDICOM"]
+        acquisition_time_fmap = fmap_json["AcquisitionTime"]
         func_list = []
         for func in sorted(glob(data_path+'/func/*bold.json')):
             with open(func, 'r') as g:
                 func_json = json.load(g)
                 shim_func = func_json["ShimSetting"]
                 patient_pos_func = func_json["ImageOrientationPatientDICOM"]
+                acquisition_time_func = func_json["AcquisitionTime"]
                 g.close()
             if shim_fmap == shim_func:
                 func_nii = glob(data_path+'/func/' +func.split('/')[-1].split('.')[0]+".nii*")[0]
