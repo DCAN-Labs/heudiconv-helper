@@ -35,8 +35,8 @@ ENV PATH="/usr/local/miniconda/bin:/usr/local/miniconda/condabin:$PATH" \
     PYTHONPATH="/usr/local/miniconda/bin/python"
 
 # Install python dependencies
-RUN conda install -y pip numpy
-RUN conda install -y -c conda-forge datalad dcm2niix
+RUN /usr/local/miniconda/bin/conda install -y pip numpy
+RUN /usr/local/miniconda/bin/conda install -y -c conda-forge datalad dcm2niix
 
 # download heudiconv repo
 RUN mkdir github && \
@@ -44,7 +44,7 @@ RUN mkdir github && \
     git clone https://github.com/nipy/heudiconv.git && \
     cd heudiconv && \
     git checkout tags/debian/0.9.0-2 -b debian-0.9.0-2 && \
-    pip install -r requirements.txt
+    /usr/local/miniconda/bin/pip install -r requirements.txt
 COPY run.py /run.py
 COPY heuristics /heuristics
 COPY IntendedFor.py /IntendedFor.py
